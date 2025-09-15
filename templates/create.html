@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グラフ作成完了 - 人口統計データグラフ作成</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>人口統計データグラフ作成</h1>
+        </header>
+        
+        <main>
+            <div class="graph-result">
+                <h2>グラフ作成完了</h2>
+                
+                <!-- フラッシュメッセージの表示 -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="messages">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="action-buttons">
+                    {% if graph_type == 'total' %}
+                        <form action="{{ url_for('display_total') }}" method="post">
+                            <button type="submit" class="btn btn-primary">総数グラフを表示</button>
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('display') }}" method="post">
+                            <button type="submit" class="btn btn-primary">男女別グラフを表示</button>
+                        </form>
+                    {% endif %}
+                    
+                    <form action="{{ url_for('index') }}" method="get">
+                        <button type="submit" class="btn btn-secondary">ホームに戻る</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

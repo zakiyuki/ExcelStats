@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>グラフ表示 - 人口統計データグラフ作成</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>人口統計データグラフ作成</h1>
+        </header>
+        
+        <main>
+            <div class="graph-display">
+                {% if graph_type == 'total' %}
+                    <h2>年齢階級別総人口分布グラフ</h2>
+                    
+                    <div class="graph-container">
+                        <img src="{{ url_for('static', filename='img/total_population.svg') }}" 
+                             alt="年齢階級別総人口分布グラフ" 
+                             class="graph-image">
+                        
+                        <div class="graph-description">
+                            <h3>グラフの見方</h3>
+                            <p>
+                                このグラフは年齢階級別の総人口分布を表示しています。<br>
+                                <strong>青色のグラデーション</strong>：各年齢階級の総人口（男女合計）<br>
+                                各バーの上に表示されている数字は、その年齢階級の総人口数（人）です。<br>
+                                グラデーション効果により、年齢が上がるにつれて色が濃くなります。
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <h2>年齢階級別人口分布グラフ（男女別）</h2>
+                    
+                    <div class="graph-container">
+                        <img src="{{ url_for('static', filename='img/population.svg') }}" 
+                             alt="年齢階級別人口分布グラフ" 
+                             class="graph-image">
+                        
+                        <div class="graph-description">
+                            <h3>グラフの見方</h3>
+                            <p>
+                                このグラフは年齢階級別の人口分布を表示しています。<br>
+                                <strong>青色（男女計）</strong>：各年齢階級の総人口<br>
+                                <strong>赤色（男子）</strong>：各年齢階級の男性人口<br>
+                                <strong>オレンジ色（女子）</strong>：各年齢階級の女性人口<br>
+                                各バーの上に表示されている数字は、その年齢階級の人口数（人）です。
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+                
+                <div class="action-buttons">
+                    <form action="{{ url_for('index') }}" method="get">
+                        <button type="submit" class="btn btn-primary">ホームに戻る</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

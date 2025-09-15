@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データセット一覧 - 人口統計データグラフ作成</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>データセット一覧</h1>
+            <p>使用するデータセットを選んでグラフを作成できます。</p>
+        </header>
+
+        <main>
+            {% if datasets %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名前</th>
+                            <th>作成日時</th>
+                            <th>レコード数</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ds in datasets %}
+                        <tr>
+                            <td>{{ ds.id }}</td>
+                            <td>{{ ds.name or '（名称未設定）' }}</td>
+                            <td>{{ ds.created_at }}</td>
+                            <td>{{ counts.get(ds.id, 0) }}</td>
+                            <td>
+                                <form action="{{ url_for('create') }}" method="post" style="display:inline-block">
+                                    <input type="hidden" name="dataset_id" value="{{ ds.id }}" />
+                                    <button type="submit" class="btn btn-success">男女別グラフ</button>
+                                </form>
+                                <form action="{{ url_for('create_total') }}" method="post" style="display:inline-block">
+                                    <input type="hidden" name="dataset_id" value="{{ ds.id }}" />
+                                    <button type="submit" class="btn btn-info">総数グラフ</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>まだデータセットがありません。まずはExcelファイルをアップロードしてください。</p>
+            {% endif %}
+
+            <div class="action-buttons">
+                <form action="{{ url_for('upload') }}" method="get" style="display:inline-block">
+                    <button type="submit" class="btn btn-primary">アップロードへ</button>
+                </form>
+                <form action="{{ url_for('index') }}" method="get" style="display:inline-block">
+                    <button type="submit" class="btn btn-secondary">ホームへ</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

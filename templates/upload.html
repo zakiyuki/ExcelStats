@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アップロード完了 - 人口統計データグラフ作成</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>人口統計データグラフ作成</h1>
+        </header>
+        
+        <main>
+            <div class="upload-result">
+                <h2>ファイルアップロード</h2>
+                
+                <!-- フラッシュメッセージの表示 -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="messages">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="action-buttons">
+                    <form action="{{ url_for('create') }}" method="post" style="display:inline-block">
+                        <button type="submit" class="btn btn-success">男女別グラフを作成</button>
+                    </form>
+                    
+                    <form action="{{ url_for('create_total') }}" method="post" style="display:inline-block">
+                        <button type="submit" class="btn btn-info">総数グラフを作成</button>
+                    </form>
+
+                    <form action="{{ url_for('datasets') }}" method="get" style="display:inline-block">
+                        <button type="submit" class="btn btn-secondary">データセットを選ぶ</button>
+                    </form>
+                    
+                    <form action="{{ url_for('index') }}" method="get" style="display:inline-block">
+                        <button type="submit" class="btn btn-secondary">ホームに戻る</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
